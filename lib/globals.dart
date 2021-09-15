@@ -1,6 +1,8 @@
 String? toCurrency ='';
-String? fromCurrency='';
+String? fromCurrency;
 
+bool online = false;
+bool ratesFetchedSuccesfully = false;
 Map<String, double> cnvRates = {
   'USDtoEGP': 15.51,
   'USDtoEUR': 0.85,
@@ -24,6 +26,9 @@ Map<String, double> cnvRates = {
   'CHFtoTURK': 9.08,
   'QtoTURK': 2.28
 };
+
+Map<String,dynamic> liveRates = {};
+
 
 double? result;
 double fromCurrencyVal = 0;
