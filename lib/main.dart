@@ -5,7 +5,6 @@ import 'globals.dart' as globals;
 
 void main() {
   runApp(CurrencyConverter());
-
 }
 
 class CurrencyConverter extends StatefulWidget {
@@ -186,7 +185,10 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                           on FormatException{
                             print('error caught');
                             break;
-                          }                            
+                          }
+                          //OFFLINE MODE
+                          if(globals.online!=true && globals.ratesFetchedSuccesfully !=true && globals.liveRates.length <1){       
+                            print('Calculated using offline mode');                
                             if(x.contains(globals.fromCurrency!)&&x.contains(globals.toCurrency!)){
                               globals.currentCnvRate = globals.cnvRates[x];
                               print(x);
@@ -201,6 +203,26 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                                 success = true;
                               }
                             }
+                          }
+                          //ONLINE MODE
+                          //TODO: CREATE A FUNCTION TO AVOID CODE REPETITION
+                          else{
+                            print('Calculated using online mode');                       
+                            if(x.contains(globals.fromCurrency!)&&x.contains(globals.toCurrency!)){
+                              globals.currentCnvRate = globals.liveRates[x];
+                              print(x);
+                              if (x.startsWith(globals.toCurrency!)) {
+                                globals.result = globals.fromCurrencyVal / globals.currentCnvRate!;
+                                toController.text = '${globals.result!.toStringAsFixed(2)} ${globals.toCurrency}';
+                                success = true;
+                              }
+                              else if(x.startsWith(globals.fromCurrency!)){
+                                globals.result = globals.fromCurrencyVal * globals.currentCnvRate!;
+                                toController.text = '${globals.result!.toStringAsFixed(2)} ${globals.toCurrency}';
+                                success = true;
+                              }
+                            }
+                          }
                           }
                           print(success.toString());
                           if (success == false) {
